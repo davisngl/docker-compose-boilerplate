@@ -58,9 +58,31 @@ services:
     networks:
       - app-network
 
+  cache:
+    image: redis:6.2
+    container_name: ${APP_NAME}.cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  manager:
+    image: portainer/portainer-ce
+    container_name: ${APP_NAME}.manager
+    restart: always
+    ports:
+      - "9005:9000"
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
 # Volume definitions
 volumes: 
   dbdata:
+    driver: local
+  portainer_data:
     driver: local
 
 #Docker Networks
