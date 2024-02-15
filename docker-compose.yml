@@ -1,5 +1,5 @@
-
 version: '3'
+
 services:
 
   #PHP Service
@@ -17,6 +17,9 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+      USER: ${PHP_USER}
+      GROUP: ${PHP_GROUP}
+      PORT: ${PHP_PORT}
     working_dir: /var/www
     networks:
       - app-network
@@ -49,9 +52,9 @@ services:
       - ./config/mysql/my.cnf:/etc/mysql/my.cnf
       - ./config/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      MYSQL_USER: davis
-      MYSQL_PASSWORD: Derived49!
-      MYSQL_DATABASE: laravel
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-laravel}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-Derived49!}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
