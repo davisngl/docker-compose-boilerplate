@@ -25,5 +25,3 @@ There's also an option to just go into container with `bash` (or whatever shell 
 
 ## To-do for now
 - Command delegator script for running commands within appropriate containers
-- Global search/replace from project root .env file so that there doesn't have to be manual search & replace for all the values
-- Look to see if something differs for containerizing Symfony projects

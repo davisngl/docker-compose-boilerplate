@@ -1,2 +1,5 @@
 .env
 .idea/
+
+# Project files should be excluded, this is only Docker setup repository
+src

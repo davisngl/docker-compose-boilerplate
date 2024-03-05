@@ -1,10 +1,12 @@
-FROM php:8.0-fpm
+FROM php:8.3-fpm
 
 ARG uid 1000
 ARG guid 1000
 
-ENV USER www
-ENV GROUP www
+ENV UID ${uid}
+ENV GUID ${guid}
+ENV USER www-data
+ENV GROUP www-data
 ENV PORT 9000
 
 # Copy composer.lock and composer.json
@@ -41,13 +43,13 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Add user for Laravel application and set proper UID/GUID
-RUN groupadd -g ${guid} ${USER} && useradd -u ${uid} -ms /bin/bash -g ${GROUP} ${USER}
+RUN groupadd -g 1000 www && useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory with proper ownership
 COPY --chown=${USER}:${GROUP} ./src /var/www
 
 # Change current user to www
-USER ${USER}
+USER www
 
 # Expose port and start php-fpm server
 EXPOSE ${PORT}

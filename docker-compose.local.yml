@@ -2,7 +2,6 @@ version: '3'
 
 services:
 
-  #PHP Service
   app:
     build:
       context: .
@@ -24,7 +23,6 @@ services:
     networks:
       - app-network
 
-  # Web server
   nginx:
     image: nginx:alpine
     container_name: ${APP_NAME}.nginx
@@ -39,8 +37,7 @@ services:
     networks:
       - app-network
 
-  #MySQL Service
-  db:
+  mariadb:
     image: mysql:8.0
     container_name: ${APP_NAME}.db
     restart: unless-stopped
@@ -55,7 +52,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-laravel}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-Derived49!}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
@@ -81,14 +78,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
-# Volume definitions
 volumes: 
   dbdata:
     driver: local
   portainer_data:
     driver: local
 
-#Docker Networks
 networks:
   app-network:
-    driver: bridge
